@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="perfil.css">
+    <script src="perfil.js" defer></script>
+    <title>Perfil do Usuário</title>
+</head>
+<body>
+    <div class="profile-wrapper">
+        <!-- Coluna Esquerda -->
+        <div class="profile-sidebar">
+            <img src="./img/foto_perfil.png" alt="Cazé TV" class="profile-pic">
+            <h1 class="profile-name">Cazé tv</h1>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-value" id="postsCount">2 mil</div>
+                    <div class="stat-label">Publicações</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="followersCount">989mil</div>
+                    <div class="stat-label">Seguidores</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="followingCount">459</div>
+                    <div class="stat-label">Seguindo</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">1.2mi</div>
+                    <div class="stat-label">Curtidas</div>
+                </div>
+            </div>
+            
+            <button class="action-button primary-btn" id="followBtn" style="width: 100%;">
+                <span>✓</span> Seguir
+            </button>
+            <button class="action-button danger-btn" id="unfollowBtn" style="width: 100%; display: none;">
+                <span>✕</span> Deixar de seguir
+            </button>
+        </div>
+        
+        <!-- Coluna Direita -->
+        <div class="profile-main">
+            <div class="bio-section">
+                <h2 class="section-title">Biografia</h2>
+                <div class="bio-content">
+                    <p class="bio-text" id="bioIntro">(Apaixonado por futebol e corrida!)</p>
+                    <ul class="bio-details" id="bioDetailsList">
+                        <li class="bio-detail">Esportes favoritos (futebol, basquete, corrida, etc.)</li>
+                        <li class="bio-detail">Time do coração: Corinthians</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="action-area">
+                <button class="action-button secondary-btn" id="editBioBtn">
+                    <span>✎</span> Editar Biografia
+                </button>
+                <button class="action-button secondary-btn" id="editProfileBtn">
+                    <span>⚙</span> Editar Perfil
+                </button>
+            </div>
+
+            <!-- Área de Publicações (RESTAURADA) -->
+            <div class="publications">
+                <div class="publication">
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?sports" alt="Publicação 1">
+                    </div>
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?football" alt="Publicação 2">
+                    </div>
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?running" alt="Publicação 3">
+                    </div>
+                </div>
+                <div class="publication">
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?stadium" alt="Publicação 4">
+                    </div>
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?athlete" alt="Publicação 5">
+                    </div>
+                    <div class="publication-item">
+                        <img src="https://source.unsplash.com/random/300x300?soccer" alt="Publicação 6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegação Fixa -->
+    <div class="profile-nav-fixed">
+        <a href="#" class="nav-item active">Home</a>
+        <a href="#" class="nav-item" id="messagesNavItem">Mensagens <span class="unread-count">3</span></a>
+        <a href="#" class="nav-item" id="settingsNavItem">Configurações</a>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Modal de Edição de Biografia -->
+    <div class="modal-overlay" id="bioModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Biografia</h3>
+                <button class="modal-close" id="closeBioModal">&times;</button>
+            </div>
+            <textarea class="bio-textarea" id="bioEditor" placeholder="Digite sua biografia..."></textarea>
+            <div class="modal-actions">
+                <button class="modal-button cancel" id="cancelBioEdit">Cancelar</button>
+                <button class="modal-button save" id="saveBio">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Perfil (ATUALIZADO com espaçamento corrigido) -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Perfil</h3>
+                <button class="modal-close" id="closeProfileModal">&times;</button>
+            </div>
+            <div class="profile-form">
+                <div class="profile-pic-upload">
+                    <div class="profile-pic-container">
+                        <img id="profilePicPreview" src="./img/foto_perfil.png" class="profile-pic-preview" alt="Pré-visualização">
+                        <div class="upload-overlay">
+                            <span class="upload-icon">+</span>
+                            <span class="upload-text">Alterar Foto</span>
+                        </div>
+                    </div>
+                    <div class="upload-info" id="uploadInfo">Formatos suportados: JPG, PNG (Max. 5MB)</div>
+                    <div class="upload-error" id="uploadError"></div>
+                    <input type="file" id="fileInput" accept="image/jpeg, image/png">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileNameInput" class="form-label">Nome do Perfil</label>
+                    <input type="text" id="profileNameInput" class="form-input" placeholder="Digite o nome do perfil">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profileUsername" class="form-label">Nome de Usuário</label>
+                    <input type="text" id="profileUsername" class="form-input" placeholder="Digite o nome de usuário">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-button cancel" id="cancelProfileEdit">Cancelar</button>
+                <button class="modal-button save" id="saveProfile">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Modal do Chat -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>Chat com Cazé tv</h3>
+                <button class="chat-close" id="closeChatModal">&times;</button>
+                <span class="unread-count">3</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Mensagens serão inseridas aqui via JavaScript -->
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Digite sua mensagem..." id="chatMessageInput">
+                <button id="sendMessageBtn">
+                    <span>Enviar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Configurações</h3>
+                <button class="modal-close" id="closeSettingsModal">&times;</button>
+            </div>
+            <div class="settings-group">
+                <h4 class="settings-subtitle">Aparência</h4>
+                <div class="theme-options">
+                    <button class="theme-option" data-theme="light">
+                        <div class="theme-preview light"></div>
+                        <span>Claro</span>
+                    </button>
+                   
+                    <button class="theme-option" data-theme="blue">
+                        <div class="theme-preview blue"></div>
+                        <span>Azul</span>
+                    </button>
+                    <button class="theme-option" data-theme="green">
+                        <div class="theme-preview green"></div>
+                        <span>Verde</span>
+                    </button>
+                    <button class="theme-option" data-theme="purple">
+                        <div class="theme-preview purple"></div>
+                        <span>Roxo</span>
+                    </button>
+                </div>
+            </div>
+            <div class="settings-form">
+                <!-- Notificações -->
+                <div class="settings-group">
+                    <h4 class="settings-subtitle">Notificações</h4>
+                    <div class="setting-option">
+                        <label class="switch">
+                            <input type="checkbox" id="notificationsToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span>Receber notificações</span>
+                    </div>
+                    
+                    <div class="setting-option">
+                        <label class="switch">
+                            <input type="checkbox" id="soundToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Som de notificação</span>
+                    </div>
+                </div>
+                
+                <!-- Privacidade -->
+                <div class="settings-group">
+                    <h4 class="settings-subtitle">Privacidade</h4>
+                    <div class="setting-option">
+                        <label class="switch">
+                            <input type="checkbox" id="privateAccountToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Conta privada</span>
+                    </div>
+                </div>
+                
+                <!-- Tema -->
+                <div class="settings-group">
+                    <h4 class="settings-subtitle">Aparência</h4>
+                    <div class="theme-options">
+                        <button class="theme-option" data-theme="light">
+                            <div class="theme-preview light"></div>
+                            <span>Claro</span>
+                        </button>
+                        
+                        <button class="theme-option" data-theme="blue">
+                            <div class="theme-preview blue"></div>
+                            <span>Azul</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <button class="modal-button danger-btn" id="logoutBtn">
+                    <span>↩</span> Sair da Conta
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal de Confirmação de Logout -->
+    <div class="logout-confirmation-modal" id="logoutConfirmationModal">
+        <div class="logout-confirmation-content">
+            <h3>Confirmar Saída</h3>
+            <p>Tem certeza que deseja sair da sua conta?</p>
+            <div class="logout-confirmation-buttons">
+                <button class="logout-cancel-btn" id="logoutCancelBtn">Cancelar</button>
+                <button class="logout-confirm-btn" id="logoutConfirmBtn">Sim, Sair</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
